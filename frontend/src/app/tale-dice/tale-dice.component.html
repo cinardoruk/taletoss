@@ -1,0 +1,75 @@
+<mat-tab-group class="bg-accent">
+    <mat-tab label="Roll">
+      <div class="game_container">
+        <div class="button_container">
+          <button mat-fab color="" (click)="shuffleDice()">
+            <mat-icon>casino</mat-icon>
+          </button>
+        </div>
+        <div class="card_group">
+          <mat-card *ngFor="let die of selectedDice" class = "image-card">
+            <img mat-card-image [src]="currentUrl + die.svgPath">
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Edit">
+        <form (ngSubmit)="addDie()">
+            <input [(ngModel)]="newDie.name" name="name" placeholder="Name" required>
+
+            <input type="text" [value]="selectedFileName" placeholder="file name" readonly>
+
+            <!-- single file upload -->
+            <input type="file" #fileInput accept=".svg" (change)="onFileSelected($event)" hidden>
+            <button type="button" (click)="fileInput.click()">
+                <mat-icon>upload_file</mat-icon>
+            </button>
+
+            <!-- multi file upload -->
+            <input type="file" multiple #multiFileInput accept=".svg" (change)="onMultiFileSelected($event)" hidden>
+            <button type="button" (click)="multiFileInput.click()">
+                <mat-icon>drive_folder_upload</mat-icon>
+            </button>
+            <button type="submit">
+                <mat-icon>add</mat-icon>
+                <!-- Add Die -->
+            </button>
+        </form>
+
+        <table mat-table [dataSource]="dice" class="mat-elevation-z8" *ngIf="dice.length">
+            <ng-container matColumnDef="icon">
+                <th mat-header-cell *matHeaderCellDef>Icon</th>
+                <td mat-cell *matCellDef="let die">
+                    <img src="{{currentUrl}}{{ die.svgPath }}">
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let die">{{die.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="svgPath">
+                <th mat-header-cell *matHeaderCellDef>SVG Path</th>
+                <td mat-cell *matCellDef="let die">{{die.svgPath}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let die">
+                    <button (click)="deleteDie(die.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button (click)="updateDie(die)">
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <!-- header and row declarations -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-tab>
+
+</mat-tab-group>

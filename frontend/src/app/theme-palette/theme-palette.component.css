@@ -1,0 +1,24 @@
+.color-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.color-box {
+  flex: 1;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.mat-primary { background-color: var(--mat-primary); }
+.mat-accent  { background-color: var(--mat-accent); }
+.mat-warn    { background-color: var(--mat-warn); }
+
+.bg-primary  { background-color: #e91e63; }
+.bg-accent   { background-color: #607d8b; }
+.bg-warn     { background-color: #f44336; }
+
+.text-light  { color: white; }
