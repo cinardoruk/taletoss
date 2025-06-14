@@ -39,3 +39,14 @@
 .diceTableTopHeader .subheader{
   font-size: 25px;
 }
+
+.diceTableTopHeader button{
+  color:white;
+  background:none;
+  border: none;
+}
+.row-image{
+	color:white;
+  fill: white;
+  stroke: white;
+}

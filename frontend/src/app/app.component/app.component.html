@@ -1,15 +1,32 @@
 <mat-toolbar>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
   <span>RollTale</span>
   <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>
+
+  <div>
+    <a href="/teacher">
+      <mat-icon>edit</mat-icon>
+    </a>
+  </div>
+
+  <div *ngIf="!isLoggedIn">
+    <button
+        mat-icon-button
+        (click)="login()"
+        class="login-icon"
+        aria-label="button with login icon">
+      <mat-icon>login</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="isLoggedIn">
+    <button
+      mat-icon-button
+      (click)="logout()"
+      class="logout-icon"
+      aria-label="button with logout icon">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
 
 <router-outlet>

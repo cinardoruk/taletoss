@@ -1,10 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-// angular material
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { Observer } from 'rxjs';
+
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table'
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogModule,
+} from '@angular/material/dialog'
+
+// my own components
+import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 
 interface TaleDie{
   id: number;
@@ -14,18 +32,22 @@ interface TaleDie{
 }
 
 @Component({
-  selector: 'app-tale-dice',
+  selector: 'app-teacher-page',
   standalone: true,
   imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
+    FormsModule,
+    HttpClientModule,
+    MatDividerModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    MatSnackBarModule,
+    UploadDialogComponent,
   ],
-  templateUrl: './tale-dice.component.html',
-  styleUrl: './tale-dice.component.css'
+  templateUrl: './teacher-page.component.html',
+  styleUrl: './teacher-page.component.css'
 })
-export class TaleDiceComponent implements OnInit {
+export class TeacherPageComponent {
   dice: TaleDie[] = [];
   newDie: Partial<TaleDie> = {};
   selectedDice: TaleDie[] = [];
@@ -202,4 +224,6 @@ export class TaleDiceComponent implements OnInit {
     const dialogRef = this.dialog.open(UploadDialogComponent);
 
   }
+
+
 }

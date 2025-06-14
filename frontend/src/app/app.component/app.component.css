@@ -3,3 +3,15 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+
+mat-toolbar button{
+  color: white;
+  background: none;
+  border: none;
+}
+
+mat-toolbar a{
+  color: white;
+  background: none;
+  border: none;
+}
