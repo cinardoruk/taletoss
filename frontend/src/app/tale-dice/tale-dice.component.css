@@ -29,3 +29,13 @@
 .image-card img{
 
 }
+
+.diceTableTopHeader{
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.diceTableTopHeader .subheader{
+  font-size: 25px;
+}

@@ -5,19 +5,35 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { Observer } from 'rxjs';
 
-
+// angular material
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table'
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogModule,
+} from '@angular/material/dialog'
+
+
+// my own components
+import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 
 interface TaleDie{
   id: number;
   name: string;
   svgPath: string;
+  checked: boolean;
 }
 
 @Component({
@@ -31,9 +47,11 @@ interface TaleDie{
     MatIconModule,
     MatDividerModule,
     MatTableModule,
+    MatCheckboxModule,
     MatTabsModule,
     MatCardModule,
     MatSnackBarModule,
+    UploadDialogComponent,
   ],
   templateUrl: './tale-dice.component.html',
   styleUrl: './tale-dice.component.css'
@@ -50,12 +68,22 @@ export class TaleDiceComponent implements OnInit {
 
   currentUrl: string = '';
 
-  displayedColumns: string[] =['icon', 'name', 'svgPath', 'actions'];
+  displayedColumns: string[] =[
+    'selected',
+    'icon',
+    'name',
+    'svgPath',
+    // 'actions',
+  ];
 
   aspNetUrl: string = 'http://localhost:5267/'
   apiUrl: string = this.aspNetUrl + 'api/dice';
 
-  constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
+  constructor(
+    private http: HttpClient,
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.loadDice();
@@ -75,6 +103,8 @@ export class TaleDiceComponent implements OnInit {
     this.selectedFiles = null;
     this.loadDice();
   }
+
+  //CRUD
 
   private getObserver(action: 'multi_create' | 'create' | 'read' | 'update' | 'delete'): Partial<Observer<TaleDie>> {
     let message: string = '';
@@ -123,10 +153,6 @@ export class TaleDiceComponent implements OnInit {
     this.http.get<TaleDie[]>(this.apiUrl).subscribe(data => this.dice = data);
   }
 
-  shuffleDice(){
-    this.selectedDice = TaleDiceComponent.getRandomSubarray(this.dice, 5);
-  }
-
   addDie() {
     // if uploading multiple files
     if (this.selectedFiles !== null && this.selectedFiles.length > 0){
@@ -156,6 +182,16 @@ export class TaleDiceComponent implements OnInit {
     this.http.delete<TaleDie>(`${this.apiUrl}/${id}`).subscribe(this.getObserver('delete'));
   }
 
+  deleteSelectedDice(){
+    for (const die of this.dice){
+      if (die.checked){
+        this.deleteDie(die.id);
+      }
+    }
+  }
+
+  //file selection
+
   onFileSelected(event: Event): void{
     const input = event.target as HTMLInputElement;
 
@@ -176,6 +212,12 @@ export class TaleDiceComponent implements OnInit {
     }
   }
 
+  //random dice
+
+  shuffleDice(){
+    this.selectedDice = TaleDiceComponent.getRandomSubarray(this.dice, 5);
+  }
+
   static getRandomSubarray<T>(arr: T[], size: number): T[] {
     var shuffled = arr.slice(0), i = arr.length, temp, index;
     while (i--) {
@@ -185,5 +227,10 @@ export class TaleDiceComponent implements OnInit {
         shuffled[i] = temp;
     }
     return shuffled.slice(0, size);
+  }
+  //dialog
+  openDialog(): void {
+    const dialogRef = this.dialog.open(UploadDialogComponent);
+
   }
 }

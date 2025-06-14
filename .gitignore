@@ -1,2 +1,4 @@
 dev/*
 backend/wwwroot/*
+backend/bin/
+backend/obj/
