@@ -37,6 +37,7 @@ interface TaleDie{
   imports: [
     FormsModule,
     HttpClientModule,
+    MatIconModule,
     MatDividerModule,
     MatTableModule,
     MatCheckboxModule,
@@ -201,23 +202,6 @@ export class TeacherPageComponent {
     else{
       this.selectedFiles = null;
     }
-  }
-
-  //random dice
-
-  shuffleDice(){
-    this.selectedDice = TaleDiceComponent.getRandomSubarray(this.dice, 5);
-  }
-
-  static getRandomSubarray<T>(arr: T[], size: number): T[] {
-    var shuffled = arr.slice(0), i = arr.length, temp, index;
-    while (i--) {
-        index = Math.floor((i + 1) * Math.random());
-        temp = shuffled[index];
-        shuffled[index] = shuffled[i];
-        shuffled[i] = temp;
-    }
-    return shuffled.slice(0, size);
   }
   //dialog
   openDialog(): void {

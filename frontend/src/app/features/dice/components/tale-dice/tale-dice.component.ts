@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 // angular material
 import { MatCardModule } from '@angular/material/card';
@@ -196,10 +197,5 @@ export class TaleDiceComponent implements OnInit {
         shuffled[i] = temp;
     }
     return shuffled.slice(0, size);
-  }
-  //dialog
-  openDialog(): void {
-    const dialogRef = this.dialog.open(UploadDialogComponent);
-
   }
 }

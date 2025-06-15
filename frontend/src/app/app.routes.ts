@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { ThemePaletteComponent } from './theme-palette/theme-palette.component';
+import { ThemePaletteComponent } from './features/testing/theme-palette/theme-palette.component';
 import { AppComponent } from './app.component/app.component';
-import { TaleDiceComponent } from './tale-dice/tale-dice.component';
-import { TeacherPageComponent } from './teacher-page/teacher-page.component'
+import { TaleDiceComponent } from './features/dice/components/tale-dice/tale-dice.component';
+import { TeacherPageComponent } from './features/dice/components/teacher-page/teacher-page.component'
 
 
 export const routes: Routes = [
