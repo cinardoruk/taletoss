@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-
-import { Observer } from 'rxjs';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -21,15 +18,11 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog'
 
-// my own components
+// my own components, services
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 
-interface TaleDie{
-  id: number;
-  name: string;
-  svgPath: string;
-  checked: boolean;
-}
+import { TaleDie } from '../../services/dice.service';
+
 
 @Component({
   selector: 'app-teacher-page',
@@ -68,8 +61,6 @@ export class TeacherPageComponent {
     // 'actions',
   ];
 
-  aspNetUrl: string = 'http://localhost:5267/'
-  apiUrl: string = this.aspNetUrl + 'api/dice';
 
   constructor(
     private http: HttpClient,

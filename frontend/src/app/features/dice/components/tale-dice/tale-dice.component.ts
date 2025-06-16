@@ -51,19 +51,11 @@ export class TaleDiceComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.loadDice();
     this.currentUrl = this.aspNetUrl;
-  }
-
-  showSnackbar(message: string, action: string){
-    this.snackbar.open(message, action, {
-      "duration" : 3000,
-    });
   }
 
   reset(){
