@@ -1,3 +1,4 @@
+
 namespace backend.Entities;
 
 public class TaleDie

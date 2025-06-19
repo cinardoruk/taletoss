@@ -8,17 +8,37 @@
   align-items: center;
 }
 
+.game-controls{
+	display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
 .button_container {
   display: flex;
   justify-content: center;
-  width: 120px;
+  align-items: center;
+}
+.button_container button{
+  width: 125px;
+  height: 125px;
+}
+
+.button-group-container {
+  margin: 1rem 0 1rem 0;
+}
+
+.button-group-container img{
+  width: 125px;
+  height: 125px;
 }
 
 .card_group{
-	display:flex;
-  flex-wrap: wrap;
+	display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
   gap: 1rem;
-  justify-content: center;
 }
 .image-card{
 	width: 200px;
@@ -28,25 +48,4 @@
 
 .image-card img{
 
-}
-
-.diceTableTopHeader{
-  display: flex;
-  justify-content: space-between;
-
-}
-
-.diceTableTopHeader .subheader{
-  font-size: 25px;
-}
-
-.diceTableTopHeader button{
-  color:white;
-  background:none;
-  border: none;
-}
-.row-image{
-	color:white;
-  fill: white;
-  stroke: white;
 }

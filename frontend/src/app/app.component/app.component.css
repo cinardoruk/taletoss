@@ -1,17 +1,55 @@
+.top-toolbar{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.toolbar-content{
+	max-width: 1280px;
+  width: 100%;
+  /* margin: 0 auto; */
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+
+@media (max-width: 600px){
+  .toolbar-content{
+    padding: 0 8px;
+    height: 56px;
+  }
+}
+
+.toolbar-title{
+	text-decoration: none;
+  text-decoration-line: none;
+}
+.toolbar-title:hover{
+}
 
 .example-spacer {
   flex: 1 1 auto;
 }
 
-mat-toolbar button{
+.login-button {
   color: white;
   background: none;
   border: none;
+}
+.login-button:hover {
+  cursor: pointer;
 }
 
 mat-toolbar a{
   color: white;
   background: none;
   border: none;
+}
+.toolbar-icon{
+	margin: 0 6px 0 6px;
+}
+.toolbar-icon:hover{
+  cursor: pointer;
 }

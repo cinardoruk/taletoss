@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -21,15 +22,15 @@ import {
 // my own components, services
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 
-import { TaleDie } from '../../services/dice.service';
+import { DiceService, TaleDie } from '../../services/dice.service';
 
 
 @Component({
   selector: 'app-teacher-page',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
-    HttpClientModule,
     MatIconModule,
     MatDividerModule,
     MatTableModule,
@@ -61,22 +62,15 @@ export class TeacherPageComponent {
     // 'actions',
   ];
 
-
   constructor(
-    private http: HttpClient,
+    private diceService: DiceService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.loadDice();
-    this.currentUrl = this.aspNetUrl;
-  }
-
-  showSnackbar(message: string, action: string){
-    this.snackbar.open(message, action, {
-      "duration" : 3000,
-    });
+    this.currentUrl = this.diceService.aspNetUrl;
   }
 
   reset(){
@@ -87,56 +81,26 @@ export class TeacherPageComponent {
     this.loadDice();
   }
 
-  //CRUD
-
-  private getObserver(action: 'multi_create' | 'create' | 'read' | 'update' | 'delete'): Partial<Observer<TaleDie>> {
-    let message: string = '';
-
-    switch (action) {
-      case 'multi_create':
-        message = "Items saved successfully."
-        break;
-
-      case 'create':
-        message = "Item saved successfully."
-        break;
-
-      // case 'read':
-      //   message = "Saved successfully."
-      //   break;
-
-      case 'update':
-        message = "Item updated successfully."
-        break;
-
-      case 'delete':
-        message = "Item deleted successfully."
-        break;
-
-      default:
-        break;
-    }
-
-    return {
-      "next": (response) => {
-        console.log('Success', response);
-      },
-      "error": (err) => {
-        console.error('Error!', err);
-      },
-      "complete": () => {
-        console.log('Request complete!');
-        this.reset();
-        this.showSnackbar(message,"Close");
-      }
-    };
+  showSnackbar(message: string, action: string){
+    this.snackbar.open(message, action, {
+      "duration" : 3000,
+    });
   }
 
+  //CRUD
+
   loadDice(){
-    this.http.get<TaleDie[]>(this.apiUrl).subscribe(data => this.dice = data);
+    this.diceService.getDice().subscribe(data => this.dice = data);
   }
 
   addDie() {
+    const observer = this.diceService.getObserver<TaleDie>(
+      this.selectedFiles ? 'multi_create' : 'create',
+      () => {
+        this.reset();
+        this.showSnackbar("Die(s) saved!", "Close");
+      }
+    );
     // if uploading multiple files
     if (this.selectedFiles !== null && this.selectedFiles.length > 0){
       const formData = new FormData();
@@ -145,7 +109,7 @@ export class TeacherPageComponent {
         formData.append('files', file)
       }
 
-      this.http.post<TaleDie>(this.aspNetUrl + 'api/dice/upload-multiple', formData).subscribe(this.getObserver('multi_create'));
+      this.diceService.uploadMultiple(formData).subscribe(observer);
     }
     // if uploading a single file
     else if (this.selectedFile !== null){
@@ -153,16 +117,30 @@ export class TeacherPageComponent {
       formData.append('name', this.newDie.name || '');
       formData.append('svgFile', this.selectedFile);
 
-      this.http.post<TaleDie>(this.apiUrl, formData).subscribe(this.getObserver('create'));
+      this.diceService.createDie(formData).subscribe(observer);
     }
   }
 
   updateDie(die: TaleDie) {
-    this.http.put<TaleDie>(`${this.apiUrl}/${die.id}`, die).subscribe(this.getObserver('update'));
+    const observer = this.diceService.getObserver<TaleDie>(
+      'update',
+      () => {
+        this.reset();
+        this.showSnackbar("Die updated", "Close");
+      }
+    );
+    this.diceService.updateDie(die).subscribe(observer);
   }
 
   deleteDie(id: number) {
-    this.http.delete<TaleDie>(`${this.apiUrl}/${id}`).subscribe(this.getObserver('delete'));
+    const observer = this.diceService.getObserver<TaleDie>(
+      'delete',
+      () => {
+        this.reset();
+        this.showSnackbar("Die(s) deleted", "Close");
+      }
+    );
+    this.diceService.deleteDie(id).subscribe(observer);
   }
 
   deleteSelectedDice(){

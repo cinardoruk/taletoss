@@ -3,6 +3,8 @@ using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace backend.Controllers;
 
 // what do these two [] statements do?
@@ -32,6 +34,8 @@ public class DiceController(DataContext context, IWebHostEnvironment env) : Cont
         if (die == null) return NotFound();
         return die;
     }
+
+    [Authorize(Roles = "Administrator")]
     [HttpPost]
     public async Task<ActionResult<TaleDie>> PostDie([FromForm] string name, [FromForm] IFormFile svgFile)
     {
@@ -64,6 +68,7 @@ public class DiceController(DataContext context, IWebHostEnvironment env) : Cont
         );
     }
 
+    [Authorize(Roles = "Administrator")]
 	[HttpPost("upload-multiple")]
 	public async Task<IActionResult> UploadMultiple(List<IFormFile> files)
 	{
@@ -106,6 +111,7 @@ public class DiceController(DataContext context, IWebHostEnvironment env) : Cont
 	}
 
 
+    [Authorize(Roles = "Administrator")]
     [HttpPut("{id}")]
     public async Task<IActionResult> PutDie(int id, TaleDie die)
     {
@@ -133,6 +139,8 @@ public class DiceController(DataContext context, IWebHostEnvironment env) : Cont
         return NoContent();
 
     }
+
+    [Authorize(Roles = "Administrator")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDie(int id)
     {

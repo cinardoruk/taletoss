@@ -5,14 +5,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 // angular material
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 import { MatIconModule } from '@angular/material/icon';
 
-interface TaleDie{
-  id: number;
-  name: string;
-  svgPath: string;
-  checked: boolean;
-}
+// service and interface for Die
+import { DiceService, TaleDie } from '../../services/dice.service';
 
 @Component({
   selector: 'app-tale-dice',
@@ -22,162 +21,57 @@ interface TaleDie{
     MatButtonModule,
     MatIconModule,
     MatCardModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './tale-dice.component.html',
   styleUrl: './tale-dice.component.css'
 })
+
 export class TaleDiceComponent implements OnInit {
+
+  five_button: string = "/assets/5_die.svg";
+  nine_button: string = "/assets/9_die.svg";
+
   dice: TaleDie[] = [];
-  newDie: Partial<TaleDie> = {};
-  selectedDice: TaleDie[] = [];
-
-  selectedFile: File | null = null;
-  selectedFileName: string = '';
-
-  selectedFiles: File[] | null = null;
+  selectedDice: (TaleDie | null)[] = [];
+  diceQty: number = 5;
 
   currentUrl: string = '';
 
-  displayedColumns: string[] =[
-    'selected',
-    'icon',
-    'name',
-    'svgPath',
-    // 'actions',
-  ];
-
-  aspNetUrl: string = 'http://localhost:5267/'
-  apiUrl: string = this.aspNetUrl + 'api/dice';
-
   constructor(
-    private http: HttpClient,
+    private diceService: DiceService,
   ) {}
 
   ngOnInit(): void {
     this.loadDice();
-    this.currentUrl = this.aspNetUrl;
-  }
-
-  reset(){
-    this.newDie = {};
-    this.selectedFile = null;
-    this.selectedFileName = '';
-    this.selectedFiles = null;
-    this.loadDice();
-  }
-
-  //CRUD
-
-  private getObserver(action: 'multi_create' | 'create' | 'read' | 'update' | 'delete'): Partial<Observer<TaleDie>> {
-    let message: string = '';
-
-    switch (action) {
-      case 'multi_create':
-        message = "Items saved successfully."
-        break;
-
-      case 'create':
-        message = "Item saved successfully."
-        break;
-
-      // case 'read':
-      //   message = "Saved successfully."
-      //   break;
-
-      case 'update':
-        message = "Item updated successfully."
-        break;
-
-      case 'delete':
-        message = "Item deleted successfully."
-        break;
-
-      default:
-        break;
-    }
-
-    return {
-      "next": (response) => {
-        console.log('Success', response);
-      },
-      "error": (err) => {
-        console.error('Error!', err);
-      },
-      "complete": () => {
-        console.log('Request complete!');
-        this.reset();
-        this.showSnackbar(message,"Close");
-      }
-    };
+    this.currentUrl = this.diceService.aspNetUrl;
   }
 
   loadDice(){
-    this.http.get<TaleDie[]>(this.apiUrl).subscribe(data => this.dice = data);
+    this.diceService.getDice().subscribe(data => this.dice = data);
   }
 
-  addDie() {
-    // if uploading multiple files
-    if (this.selectedFiles !== null && this.selectedFiles.length > 0){
-      const formData = new FormData();
+  // Fill grid with 9 slots; insert die or null in desired positions
+  getGridWithPlusShape(): (TaleDie | null)[] {
+    const plusIndices = [1, 3, 4, 5, 7]; // center row & column
+    const filled = Array(9).fill(null);
 
-      for (const file of this.selectedFiles){
-        formData.append('files', file)
-      }
+    this.selectedDice.slice(0, 5).forEach((die, i) => {
+      filled[plusIndices[i]] = die;
+    });
 
-      this.http.post<TaleDie>(this.aspNetUrl + 'api/dice/upload-multiple', formData).subscribe(this.getObserver('multi_create'));
-    }
-    // if uploading a single file
-    else if (this.selectedFile !== null){
-      const formData = new FormData();
-      formData.append('name', this.newDie.name || '');
-      formData.append('svgFile', this.selectedFile);
-
-      this.http.post<TaleDie>(this.apiUrl, formData).subscribe(this.getObserver('create'));
-    }
-  }
-
-  updateDie(die: TaleDie) {
-    this.http.put<TaleDie>(`${this.apiUrl}/${die.id}`, die).subscribe(this.getObserver('update'));
-  }
-
-  deleteDie(id: number) {
-    this.http.delete<TaleDie>(`${this.apiUrl}/${id}`).subscribe(this.getObserver('delete'));
-  }
-
-  deleteSelectedDice(){
-    for (const die of this.dice){
-      if (die.checked){
-        this.deleteDie(die.id);
-      }
-    }
-  }
-
-  //file selection
-
-  onFileSelected(event: Event): void{
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length >0){
-      this.selectedFile = input.files[0];
-      this.selectedFileName = this.selectedFile.name;
-    }
-  }
-
-  onMultiFileSelected(event: Event): void{
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length >0){
-      this.selectedFiles = Array.from(input.files);
-    }
-    else{
-      this.selectedFiles = null;
-    }
+    return filled;
   }
 
   //random dice
 
   shuffleDice(){
-    this.selectedDice = TaleDiceComponent.getRandomSubarray(this.dice, 5);
+    this.selectedDice = TaleDiceComponent.getRandomSubarray(this.dice, this.diceQty);
+    if (this.diceQty === 5)
+      {
+        this.selectedDice = this.getGridWithPlusShape();
+      }
   }
 
   static getRandomSubarray<T>(arr: T[], size: number): T[] {

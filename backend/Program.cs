@@ -7,13 +7,18 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddUserSecrets<Program>();
+
 // Add services to the container.
 builder.Services.AddControllers();
 
 // what's happening here syntactically?
 builder.Services.AddDbContext<DataContext>(opt =>
     {
+        //this was for sqlite
         opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+        // opt.UseNpgsql(builder.Configuration.GetConnectionString("psql"));
+
     }
 );
 
@@ -47,8 +52,6 @@ builder.Services.AddAuthentication(opt =>
      };
 });
 
-
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -68,12 +71,13 @@ if (app.Environment.IsDevelopment())
 
 // Configure the HTTP request pipeline.
 
+app.UseCors("AllowFrontend");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 

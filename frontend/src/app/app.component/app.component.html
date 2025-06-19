@@ -1,31 +1,46 @@
-<mat-toolbar>
-  <span>RollTale</span>
-  <span class="example-spacer"></span>
+<mat-toolbar class="top-toolbar">
+  <div class="toolbar-content">
+      <a class="toolbar-title"
+         [routerLink]="['']">
+        <span >RollTale</span>
+      </a>
 
-  <div>
-    <a href="/teacher">
-      <mat-icon>edit</mat-icon>
-    </a>
-  </div>
+      <span class="example-spacer"></span>
 
-  <div *ngIf="!isLoggedIn">
-    <button
-        mat-icon-button
-        (click)="login()"
-        class="login-icon"
-        aria-label="button with login icon">
-      <mat-icon>login</mat-icon>
-    </button>
-  </div>
+      <div class="toolbar-icon">
+        <mat-icon>help</mat-icon>
+      </div>
 
-  <div *ngIf="isLoggedIn">
-    <button
-      mat-icon-button
-      (click)="logout()"
-      class="logout-icon"
-      aria-label="button with logout icon">
-      <mat-icon>logout</mat-icon>
-    </button>
+      <div class="toolbar-icon" *ngIf="showWhichButtons['teacher']">
+        <a (click)=goToTeacherPage()>
+          <mat-icon>edit</mat-icon>
+        </a>
+      </div>
+
+      <div class="toolbar-icon" *ngIf="showWhichButtons['game']">
+        <a [routerLink]="['']">
+          <mat-icon>casino</mat-icon>
+        </a>
+      </div>
+
+      <div *ngIf="!isLoggedIn">
+        <a
+            [routerLink]="['/login']"
+            class="toolbar-icon"
+            aria-label="button with login icon">
+          <mat-icon>login</mat-icon>
+        </a>
+      </div>
+
+      <div *ngIf="isLoggedIn">
+        <button
+          mat-icon-button
+          (click)="onLogout()"
+          class="login-button"
+          aria-label="button with logout icon">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
   </div>
 </mat-toolbar>
 

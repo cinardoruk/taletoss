@@ -13,7 +13,7 @@ public class JwtHandler(IConfiguration configuration, UserManager<ApplicationUse
     {
         var jwt = new JwtSecurityToken(
             issuer: configuration["JwtSettings:Issuer"],
-            audience: configuration["JwtSettings.Audience"],
+            audience: configuration["JwtSettings:Audience"],
             claims: await GetClaimsAsync(user),
             expires: DateTime.Now.AddMinutes(Convert.ToDouble(
                 configuration["JwtSettings:ExpirationTimeInMinutes"]
