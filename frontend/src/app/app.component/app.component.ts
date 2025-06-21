@@ -29,10 +29,17 @@ import { AuthService } from '@features/auth/auth.service'
 })
 export class AppComponent implements OnInit{
 
-  title = 'RollTale';
-
   private destroySubject = new Subject();
   isLoggedIn: boolean = false;
+
+
+  title = 'RollTale';
+
+  //conditional rendering based on output of router subscription
+  showWhichButtons = {
+    'game': false,
+    'teacher': true
+  }
 
   //subscribe to authService.authStatus observable so that
   //isLoggedIn gets updated when it changes
@@ -43,11 +50,24 @@ export class AppComponent implements OnInit{
     this.authService.authStatus.pipe(takeUntil(this.destroySubject)).subscribe(result => {
       this.isLoggedIn = result;
     })
+
+    //subscribe to router to get changes
+    this.router.events.subscribe(() => {
+      const current = this.router.url
+      if (current.includes('/teacher') || current.includes('/login')){
+        this.showWhichButtons.game = true;
+        this.showWhichButtons.teacher = false;
+      } else {
+        this.showWhichButtons.game = false;
+        this.showWhichButtons.teacher = true;
+      }
+    });
   }
 
   // but we also need to set it when the component first runs
   // on init, set isLoggedIn to the current state
   ngOnInit(): void{
+    this.authService.init()
     this.isLoggedIn = this.authService.isAuthenticated();
   }
 
@@ -70,12 +90,6 @@ export class AppComponent implements OnInit{
     }
   }
 
-  //conditional rendering based on current page
-  //we have 2 buttons
-  showWhichButtons = {
-    'game': false,
-    'teacher': true
-  }
 
 
 

@@ -7,11 +7,14 @@
 .diceTableTopHeader{
   display: flex;
   justify-content: space-between;
+  margin: 20px 0 0 0;
 
+	max-width: 1280px;
+  width: 100%;
 }
 
 .diceTableTopHeader .subheader{
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .diceTableTopHeader button{
@@ -33,4 +36,8 @@
 	color:white;
   fill: white;
   stroke: white;
+}
+
+.controls{
+	display:flex;
 }

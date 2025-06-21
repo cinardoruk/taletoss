@@ -15,6 +15,7 @@ import {
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from '../auth.service';
 import { LoginRequest } from '../login-request';
@@ -29,6 +30,7 @@ import { LoginResult } from '../login-result';
     RouterModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

@@ -11,8 +11,10 @@
         <mat-icon>help</mat-icon>
       </div>
 
-      <div class="toolbar-icon" *ngIf="showWhichButtons['teacher']">
-        <a (click)=goToTeacherPage()>
+      <div  *ngIf="showWhichButtons['teacher']">
+        <a
+          class="toolbar-icon"
+          (click)=goToTeacherPage()>
           <mat-icon>edit</mat-icon>
         </a>
       </div>
@@ -26,7 +28,7 @@
       <div *ngIf="!isLoggedIn">
         <a
             [routerLink]="['/login']"
-            class="toolbar-icon"
+            class="login-button"
             aria-label="button with login icon">
           <mat-icon>login</mat-icon>
         </a>
@@ -36,7 +38,7 @@
         <button
           mat-icon-button
           (click)="onLogout()"
-          class="login-button"
+          class="logout-button"
           aria-label="button with logout icon">
           <mat-icon>logout</mat-icon>
         </button>

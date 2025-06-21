@@ -13,7 +13,15 @@
   align-items: flex-start;
 }
 
+.form-fields {
+
+}
+
 .login_buttons{
 	display: flex;
   justify-content: space-between;
+}
+
+.login_buttons button{
+  width: 85px;
 }

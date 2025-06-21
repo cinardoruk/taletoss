@@ -1,5 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
+:root{
+  --mat-primary: #e91e63;
+  --mat-accent: #607d8b;
+  --mat-warn: #f44336;
+  --login-button: #67f87b;
+
+}
+
+/*
+other variables from the prebuilt themes
+mat-app-background-color
+mat-app-text-color
+mat-toolbar-container-background-color
+*/
+
 html, body { height: 100%; }
 body {
 margin: 0;

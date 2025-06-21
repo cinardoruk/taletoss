@@ -1,7 +1,7 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-// import { provideMatSnackBar } from '@angular/material/snack-bar';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptorFn } from '@features/auth/auth.interceptor'
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -9,8 +9,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([
+        authInterceptorFn
+      ])
+    ),
     provideAnimationsAsync(),
-    // provideMatSnackBar(),
   ]
 };

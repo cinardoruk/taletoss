@@ -13,7 +13,7 @@
                formControlName="email"
                required
                placeholder="Insert email">
-        <mat-error *ngFor="let error of getErrors(form.get('email')!, 'email')">
+        <mat-error *ngFor="let error of getErrors(form.get('email')!, 'Email')">
           {{error}}
         </mat-error>
       </mat-form-field>
@@ -34,12 +34,11 @@
 
     <div class="login_buttons">
       <button mat-flat-button
-              color="primary"
+              color="warn"
               type="submit">
         Login
       </button>
       <button mat-flat-button
-              color="secondary"
               [routerLink]="['/']">
         Cancel
       </button>

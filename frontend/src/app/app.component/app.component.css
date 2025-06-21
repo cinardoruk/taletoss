@@ -25,8 +25,12 @@
 .toolbar-title{
 	text-decoration: none;
   text-decoration-line: none;
+  font-size: 30px;
 }
+
 .toolbar-title:hover{
+  cursor: pointer;
+  color: var(--mat-warn);
 }
 
 .example-spacer {
@@ -34,12 +38,25 @@
 }
 
 .login-button {
+	margin: 0 6px 0 6px;
   color: white;
   background: none;
   border: none;
 }
 .login-button:hover {
   cursor: pointer;
+  color:var(--login-button)
+}
+
+.logout-button {
+	margin: 0 6px 0 6px;
+  color: white;
+  background: none;
+  border: none;
+}
+.logout-button:hover {
+  cursor: pointer;
+  color:var(--mat-primary)
 }
 
 mat-toolbar a{
@@ -52,4 +69,5 @@ mat-toolbar a{
 }
 .toolbar-icon:hover{
   cursor: pointer;
+  color: var(--mat-warn);
 }

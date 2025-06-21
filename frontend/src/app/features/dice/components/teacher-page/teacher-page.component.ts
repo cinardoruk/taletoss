@@ -81,6 +81,10 @@ export class TeacherPageComponent {
     this.loadDice();
   }
 
+  anyDiceChecked(): boolean{
+    return this.dice.some(die => die.checked)
+  }
+
   showSnackbar(message: string, action: string){
     this.snackbar.open(message, action, {
       "duration" : 3000,

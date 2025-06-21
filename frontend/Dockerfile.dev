@@ -1,0 +1,11 @@
+FROM node:20-alpine
+WORKDIR /app
+
+# copy source & install
+COPY package*.json ./
+RUN npm ci
+COPY . .
+
+# expose vite dev port
+EXPOSE 4200
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
