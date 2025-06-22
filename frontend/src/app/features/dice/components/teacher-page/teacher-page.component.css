@@ -33,9 +33,8 @@
 
 
 .row-image{
-	color:white;
-  fill: white;
-  stroke: white;
+  width:50px;
+  height:auto;
 }
 
 .controls{

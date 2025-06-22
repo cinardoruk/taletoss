@@ -13,7 +13,6 @@ namespace backend.Controllers;
 [Route("api/[controller]")]
 public class DiceController(DataContext context, IWebHostEnvironment env) : ControllerBase
 {
-
     private bool TaleDieExists(int id)
     {
         return context.TaleDice.Any(e => e.Id == id);

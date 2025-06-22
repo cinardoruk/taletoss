@@ -97,34 +97,6 @@ export class TeacherPageComponent {
     this.diceService.getDice().subscribe(data => this.dice = data);
   }
 
-  addDie() {
-    const observer = this.diceService.getObserver<TaleDie>(
-      this.selectedFiles ? 'multi_create' : 'create',
-      () => {
-        this.reset();
-        this.showSnackbar("Die(s) saved!", "Close");
-      }
-    );
-    // if uploading multiple files
-    if (this.selectedFiles !== null && this.selectedFiles.length > 0){
-      const formData = new FormData();
-
-      for (const file of this.selectedFiles){
-        formData.append('files', file)
-      }
-
-      this.diceService.uploadMultiple(formData).subscribe(observer);
-    }
-    // if uploading a single file
-    else if (this.selectedFile !== null){
-      const formData = new FormData();
-      formData.append('name', this.newDie.name || '');
-      formData.append('svgFile', this.selectedFile);
-
-      this.diceService.createDie(formData).subscribe(observer);
-    }
-  }
-
   updateDie(die: TaleDie) {
     const observer = this.diceService.getObserver<TaleDie>(
       'update',
@@ -179,6 +151,13 @@ export class TeacherPageComponent {
   //dialog
   openDialog(): void {
     const dialogRef = this.dialog.open(UploadDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'uploaded'){
+        this.reset();
+      }
+    });
+
 
   }
 

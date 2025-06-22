@@ -18,9 +18,9 @@ builder.Services.AddDbContext<DataContext>(opt =>
         //this was for sqlite
         opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
         // opt.UseNpgsql(builder.Configuration.GetConnectionString("psql"));
-
     }
 );
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -63,6 +63,17 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<JwtHandler>();
 
 var app = builder.Build();
+
+//run migrations
+using (var scope = app.Services.CreateScope())
+{
+	var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+	db.Database.Migrate();
+}
+
+var logger = app.Services.GetRequiredService<ILogger<SeedData>>();
+
+await SeedData.EnsureDefaultsAsync(app.Services, app.Configuration, logger);
 
 if (app.Environment.IsDevelopment())
 {

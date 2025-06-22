@@ -2,15 +2,20 @@
 <mat-dialog-content>
 
   <p-fileUpload
-      name="demo[]"
-      url="https://www.primefaces.org/cdn/api/upload.php"
-      (onUpload)="onUpload($event)"
+      name="files"
+      [customUpload]="true"
       [multiple]="true"
-      accept="image/*"
+      [auto]="false"
+      accept=".svg"
+      chooseLabel="Choose SVG"
+      (onSelect)="onFileSelect($event)"
+      (onRemove)="onFileRemove()"
+      (onClear)="onClear"
+      (onUpload)="addDie()"
       maxFileSize="1000000">
     <ng-template pTemplate="content">
-      <ul *ngIf="uploadedFiles.length">
-        <li *ngFor="let file of uploadedFiles">
+      <ul *ngIf="selectedFiles && selectedFiles.length > 0">
+        <li *ngFor="let file of selectedFiles">
           {{ file.name }} - {{ file.size }} bytes
         </li>
       </ul>

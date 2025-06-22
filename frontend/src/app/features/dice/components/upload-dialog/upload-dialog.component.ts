@@ -12,10 +12,15 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 // primeNG
 import { FileUploadModule, FileUploadEvent } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+
+// service, interface for my model
+import { DiceService, TaleDie } from '../../services/dice.service';
 
 @Component({
   selector: 'app-upload-dialog',
@@ -28,6 +33,7 @@ import { ToastModule } from 'primeng/toast';
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    MatSnackBarModule,
   ],
   providers: [MessageService],
   templateUrl: './upload-dialog.component.html',
@@ -36,21 +42,85 @@ import { ToastModule } from 'primeng/toast';
 
 export class UploadDialogComponent {
 
-  uploadedFiles: any[] = [];
+  selectedFiles: File[] | null = null;
 
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    private diceService: DiceService,
+    private snackbar: MatSnackBar,
+    private dialogRef: MatDialogRef<UploadDialogComponent>
+  ) {}
 
-  onUpload(event:FileUploadEvent): void{
-    for(let file of event.files){
-      this.uploadedFiles.push(file);
+  onFileSelect(event: { files: File[]}){
+    this.selectedFiles = event.files;
+  }
+
+  onClear(){
+    this.selectedFiles = [];
+  }
+
+
+  addDie() {
+    if (this.selectedFiles.length === 0) return;
+
+    const formData = new FormData();
+    for (const file of this.selectedFiles){
+      formData.append('files', file);
     }
-    console.log("upload!")
-    this.messageService.add(
-      {
-        "severity": "info",
-        "summary": "File Uploaded",
-        "detail": ""
+
+    const observer = this.diceService.getObserver<TaleDie>(
+      'multi_create',
+      () => {
+        this.snackbar.open("Die(s) uploaded!", "Close", {"duartion":2000});
+        this.dialogRef.close('uploaded');
       }
     );
+
+    this.diceService.uploadMultiple(formData).subscribe(observer);
+
+
+
+
+
+    // delete below
+    // const observer = this.diceService.getObserver<TaleDie>(
+    //   this.selectedFiles ? 'multi_create' : 'create',
+    //   () => {
+    //     // this.reset();
+    //     // this.showSnackbar("Die(s) saved!", "Close");
+    //   }
+    // );
+    // // if uploading multiple files
+    // if (this.selectedFiles !== null && this.selectedFiles.length > 0){
+    //   const formData = new FormData();
+
+    //   for (const file of this.selectedFiles){
+    //     formData.append('files', file)
+    //   }
+
+    //   this.diceService.uploadMultiple(formData).subscribe(observer);
+    // }
+    // // if uploading a single file
+    // else if (this.selectedFile !== null){
+    //   const formData = new FormData();
+    //   formData.append('name', this.newDie.name || '');
+    //   formData.append('svgFile', this.selectedFile);
+
+    //   this.diceService.createDie(formData).subscribe(observer);
+    // }
   }
+
+  // onUpload(event:FileUploadEvent): void{
+  //   for(let file of event.files){
+  //     this.uploadedFiles.push(file);
+  //   }
+  //   console.log("upload!")
+  //   this.messageService.add(
+  //     {
+  //       "severity": "info",
+  //       "summary": "File Uploaded",
+  //       "detail": ""
+  //     }
+  //   );
+  // }
 }

@@ -7,35 +7,42 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    networks: [appnet]
 
   backend:
     build:
       context: ./backend
-    depends_on:
-      - postgres
+      dockerfile: Dockerfile
+    depends_on: [postgres]
     environment:
-      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=rolltale;Username=postgres;Password=yourpassword
+      ConnectionStrings__DefaultConnection: Data source=dice.db
+      ConnectionStrings__psql: Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      JwtSettings__Issuer: ${JWT_ISSUER}
+      JwtSettings__Audience: ${JWT_AUDIENCE}
+      JwtSettings__Secret: ${JWT_SECRET}
+      DefaultPasswords__Administrator: ${ADMIN_PASSWORD}
+      DefaultPasswords__RegisteredUser: ${USER_PASSWORD}
     ports:
-      - "5000:80"
+      # 5267 in container exposed as 5000 in appnet
+      - "5000:5267"
+    volumes:
+      - ./backend:/app
+    networks: [appnet]
 
   angular:
     build:
       context: ./frontend
-    depends_on:
-      - backend
-
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend/dist:/usr/share/nginx/html:ro
+      dockerfile: Dockerfile.dev
     ports:
-      - "80:80"
-    depends_on:
-      - angular
-      - backend
+      - "4200:4200"
+    volumes:
+      - ./frontend:/app
+      - ./frontend/node_modules:/app/node_modules
+    depends_on: [backend]
+    networks: [appnet]
 
 volumes:
   pgdata:
+
+networks:
+  appnet:

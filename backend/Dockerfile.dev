@@ -1,0 +1,21 @@
+# Build on a lightweight SDK image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
+
+# Set working directory
+WORKDIR /app
+
+# Copy csproj and restore as separate step (for caching)
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy rest of the source
+COPY . ./
+
+# Expose ASP.NET Core default port
+EXPOSE 5267
+
+# Optional: expose port 443 if HTTPS needed in dev
+# EXPOSE 443
+
+# Enable dotnet watch for development
+CMD ["./launch_with_profile.sh"]

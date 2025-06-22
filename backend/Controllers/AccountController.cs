@@ -9,7 +9,8 @@ namespace backend.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class AccountController(
-    DataContext context,
+    // v is not read v
+    // DataContext context,
     UserManager<ApplicationUser> userManager,
     JwtHandler jwtHandler  
     ) : ControllerBase

@@ -7,24 +7,20 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    networks: [appnet]
 
   backend:
     build:
       context: ./backend
-    depends_on:
-      - postgres
+    depends_on: [postgres]
     environment:
       ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=rolltale;Username=postgres;Password=yourpassword
-    ports:
-      - "5000:80"
+    networks: [appnet]
 
   angular:
     build:
       context: ./frontend
-    depends_on:
-      - backend
+    depends_on: [backend]
 
   nginx:
     image: nginx:latest
@@ -33,9 +29,11 @@ services:
       - ./frontend/dist:/usr/share/nginx/html:ro
     ports:
       - "80:80"
-    depends_on:
-      - angular
-      - backend
+    depends_on: [frontend, backend]
+    networks: [appnet]
 
 volumes:
   pgdata:
+
+networks:
+  appnet:
