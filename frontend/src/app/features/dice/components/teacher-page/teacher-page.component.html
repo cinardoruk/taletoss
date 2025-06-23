@@ -5,7 +5,18 @@
     </div>
 
     <div class="controls">
-      <button type="" (click)="openDialog()">
+
+      <input
+        #fileInput
+        hidden
+        type="file"
+        multiple
+        (change)="onMultiFileSelected($event);">
+
+      <button
+              class="add-dice-btn"
+              type=""
+              (click)="fileInput.click()">
         <mat-icon>add</mat-icon>
       </button>
 

@@ -34,6 +34,39 @@
   height: 125px;
 }
 
+::ng-deep .mat-button-toggle-checked {
+  background-color: var(--light-gray) !important; /* your desired color */
+  color: white;
+}
+
+.rotate-once {
+  animation: rotateOnce 0.6s ease-out;
+}
+
+@keyframes rotateOnce{
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+
+/* .button-group-container2 button{ */
+/*   margin: 1rem 0 1rem 0; */
+/*   border: 1px; */
+/*   border-radius: */
+/*   background-color: var(--light-gray); */
+/*   padding: 0px !important; */
+/* } */
+
+
+/* .button-group-container2 img{ */
+/*   width: 125px; */
+/*   height: 125px; */
+/* } */
+
 .card_group{
 	display: grid;
   grid-template-columns: repeat(3, 1fr);

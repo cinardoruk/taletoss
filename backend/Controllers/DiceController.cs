@@ -35,39 +35,6 @@ public class DiceController(DataContext context, IWebHostEnvironment env) : Cont
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpPost]
-    public async Task<ActionResult<TaleDie>> PostDie([FromForm] string name, [FromForm] IFormFile svgFile)
-    {
-        if (svgFile == null || svgFile.Length == 0)
-            return BadRequest("File not selected.");
-
-        var uploadsDir = Path.Combine(env.WebRootPath, "uploads");
-        Directory.CreateDirectory(uploadsDir);//make sure it exists
-        var uploadsPath = Path.Combine(uploadsDir, svgFile.FileName);
-
-        string servePath = "/uploads/" + svgFile.FileName;
-
-        using (var stream = new FileStream(uploadsPath, FileMode.Create))
-        {
-            await svgFile.CopyToAsync(stream);
-        }
-        var die = new TaleDie
-        {
-            Name = name,
-            SvgPath = servePath
-        };
-
-        context.TaleDice.Add(die);
-        await context.SaveChangesAsync();
-
-        return CreatedAtAction(
-            nameof(GetDie),
-            new { id = die.Id },
-            die
-        );
-    }
-
-    [Authorize(Roles = "Administrator")]
 	[HttpPost("upload-multiple")]
 	public async Task<IActionResult> UploadMultiple(List<IFormFile> files)
 	{

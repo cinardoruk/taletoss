@@ -19,9 +19,11 @@
         </a>
       </div>
 
-      <div class="toolbar-icon" *ngIf="showWhichButtons['game']">
-        <a [routerLink]="['']">
-          <mat-icon>casino</mat-icon>
+      <div *ngIf="showWhichButtons['game']">
+        <a
+          class="toolbar-icon"
+          [routerLink]="['']">
+            <mat-icon  >casino</mat-icon>
         </a>
       </div>
 

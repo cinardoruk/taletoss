@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -8,20 +8,8 @@ import { MatTableModule } from '@angular/material/table'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogModule,
-} from '@angular/material/dialog'
 
 // my own components, services
-import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
-
 import { DiceService, TaleDie } from '../../services/dice.service';
 
 
@@ -37,7 +25,6 @@ import { DiceService, TaleDie } from '../../services/dice.service';
     MatCheckboxModule,
     MatTabsModule,
     MatSnackBarModule,
-    UploadDialogComponent,
   ],
   templateUrl: './teacher-page.component.html',
   styleUrl: './teacher-page.component.css'
@@ -47,10 +34,9 @@ export class TeacherPageComponent {
   newDie: Partial<TaleDie> = {};
   selectedDice: TaleDie[] = [];
 
-  selectedFile: File | null = null;
-  selectedFileName: string = '';
-
   selectedFiles: File[] | null = null;
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   currentUrl: string = '';
 
@@ -65,7 +51,6 @@ export class TeacherPageComponent {
   constructor(
     private diceService: DiceService,
     private snackbar: MatSnackBar,
-    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -75,9 +60,14 @@ export class TeacherPageComponent {
 
   reset(){
     this.newDie = {};
-    this.selectedFile = null;
-    this.selectedFileName = '';
     this.selectedFiles = null;
+
+    this.dice.forEach(die => die.checked = false);
+
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+
     this.loadDice();
   }
 
@@ -97,15 +87,28 @@ export class TeacherPageComponent {
     this.diceService.getDice().subscribe(data => this.dice = data);
   }
 
-  updateDie(die: TaleDie) {
+  addDice() {
+
+    if (this.selectedFiles === null) return;
+
+    const formData = new FormData();
+    for (const file of this.selectedFiles){
+      formData.append('files', file);
+    }
+
     const observer = this.diceService.getObserver<TaleDie>(
-      'update',
+      'multi_create',
       () => {
+        this.snackbar.open("Dice uploaded!", "Close", {"duration":2000});
         this.reset();
-        this.showSnackbar("Die updated", "Close");
+      },
+      (err) => {
+        console.error("Upload failed:", err);
+        this.snackbar.open("Dice upload error!", "Close", {"duration": 2000});
       }
     );
-    this.diceService.updateDie(die).subscribe(observer);
+
+    this.diceService.uploadMultiple(formData).subscribe(observer);
   }
 
   deleteDie(id: number) {
@@ -113,7 +116,7 @@ export class TeacherPageComponent {
       'delete',
       () => {
         this.reset();
-        this.showSnackbar("Die(s) deleted", "Close");
+        this.showSnackbar("Dice deleted", "Close");
       }
     );
     this.diceService.deleteDie(id).subscribe(observer);
@@ -129,37 +132,17 @@ export class TeacherPageComponent {
 
   //file selection
 
-  onFileSelected(event: Event): void{
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length >0){
-      this.selectedFile = input.files[0];
-      this.selectedFileName = this.selectedFile.name;
-    }
-  }
-
   onMultiFileSelected(event: Event): void{
     const input = event.target as HTMLInputElement;
 
     if (input.files && input.files.length >0){
       this.selectedFiles = Array.from(input.files);
+      this.addDice();
     }
     else{
       this.selectedFiles = null;
+      this.showSnackbar("No files selected.", "Close")
     }
   }
-  //dialog
-  openDialog(): void {
-    const dialogRef = this.dialog.open(UploadDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'uploaded'){
-        this.reset();
-      }
-    });
-
-
-  }
-
 
 }

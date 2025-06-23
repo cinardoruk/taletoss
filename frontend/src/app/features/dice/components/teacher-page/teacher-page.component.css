@@ -25,12 +25,18 @@
 
 .diceTableTopHeader button:hover{
   cursor: pointer;
+  color: var(--mat-warn);
+
+}
+
+.diceTableTopHeader button:disabled{
+  cursor: pointer;
+  color: black;
 }
 
 .disabled-icon{
 	color:black;
 }
-
 
 .row-image{
   width:50px;

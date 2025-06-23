@@ -1,23 +1,35 @@
 <div class="game_container">
   <div class="game-controls">
-    <!-- <div class="button_container" (click)="shuffleDice()"> -->
-    <!--   <button mat-icon-button> -->
-    <!--     <mat-icon>casino</mat-icon> -->
-    <!--   </button> -->
-    <!-- </div> -->
     <mat-button-toggle-group
     class="button-group-container"
     [hideSingleSelectionIndicator]="true">
       <mat-button-toggle (click)="diceQty=5;shuffleDice()">
-        <img [src]="currentUrl + five_button">
+        <img
+            #five-btn
+            [class.rotate-once]="rotate360"
+            [src]="currentUrl + five_button">
       </mat-button-toggle>
       <mat-button-toggle (click)="diceQty=9;shuffleDice()">
-        <img [src]="currentUrl + nine_button">
+        <img
+            #nine-btn
+            [class.rotate-once]="rotate360"
+            class="rotate-360"
+            [src]="currentUrl + nine_button">
       </mat-button-toggle>
     </mat-button-toggle-group>
-  </div>
-  <div class="card_group">
 
+    <!-- <div class="button-group-container2"> -->
+    <!--   <button (click)="diceQty=5;shuffleDice()"> -->
+    <!--     <img [src]="currentUrl + five_button"> -->
+    <!--   </button> -->
+    <!--   <button (click)="diceQty=9;shuffleDice()"> -->
+    <!--     <img [src]="currentUrl + nine_button"> -->
+    <!--   </button> -->
+    <!-- </div> -->
+
+  </div>
+
+  <div class="card_group">
     <ng-container *ngFor="let die of selectedDice">
       <mat-card *ngIf="die" class = "image-card">
         <img mat-card-image [src]="currentUrl + die.svgPath">
