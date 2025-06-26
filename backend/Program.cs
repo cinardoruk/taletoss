@@ -6,8 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+var env = builder.Environment;
 
-builder.Configuration.AddUserSecrets<Program>();
+//envars / secrets
+if (env.IsDevelopment())
+{
+	builder.Configuration.AddUserSecrets<Program>();
+}
+else
+{
+	builder.Configuration.AddEnvironmentVariables();
+	builder.Logging.SetMinimumLevel(LogLevel.Warning);
+}
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -15,9 +25,15 @@ builder.Services.AddControllers();
 // what's happening here syntactically?
 builder.Services.AddDbContext<DataContext>(opt =>
     {
-        //this was for sqlite
-        opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-        // opt.UseNpgsql(builder.Configuration.GetConnectionString("psql"));
+		if (env.IsDevelopment())
+		{
+			// opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+			opt.UseNpgsql(builder.Configuration.GetConnectionString("psql"));
+		}
+		else
+		{
+			opt.UseNpgsql(builder.Configuration.GetConnectionString("psql"));
+		}
     }
 );
 
@@ -54,15 +70,23 @@ builder.Services.AddAuthentication(opt =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-    policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
+
+		var origins = builder.Environment.IsDevelopment() ? new[] {"http://localhost:4200", "https://localhost:4200"} : new[] { "https://cinardoruk.xyz" };
+
+		options.AddPolicy("AllowFrontend",
+				policy => policy.WithOrigins(origins)
+				.AllowAnyMethod()
+				.AllowAnyHeader());
 });
 
 builder.Services.AddScoped<JwtHandler>();
 
 var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
 
 //run migrations
 using (var scope = app.Services.CreateScope())
@@ -75,10 +99,6 @@ var logger = app.Services.GetRequiredService<ILogger<SeedData>>();
 
 await SeedData.EnsureDefaultsAsync(app.Services, app.Configuration, logger);
 
-if (app.Environment.IsDevelopment())
-{
-
-}
 
 // Configure the HTTP request pipeline.
 

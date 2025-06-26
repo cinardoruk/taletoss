@@ -13,6 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
 // service and interface for Die
 import { DiceService, TaleDie } from '../../services/dice.service';
 
+import { environment } from '@env/environment'
+
 @Component({
   selector: 'app-tale-dice',
   standalone: true,
@@ -30,14 +32,16 @@ import { DiceService, TaleDie } from '../../services/dice.service';
 
 export class TaleDiceComponent implements OnInit {
 
-  five_button: string = "/assets/5_die.svg";
-  nine_button: string = "/assets/9_die.svg";
+  five_button: string = "assets/5_die.svg";
+  nine_button: string = "assets/9_die.svg";
+  rotate5: boolean = false;
+  rotate9: boolean = false;
 
   dice: TaleDie[] = [];
   selectedDice: (TaleDie | null)[] = [];
   diceQty: number = 5;
 
-  currentUrl: string = '';
+  currentUrl: string = environment.baseUrl;
 
   constructor(
     private diceService: DiceService,
@@ -50,6 +54,24 @@ export class TaleDiceComponent implements OnInit {
 
   loadDice(){
     this.diceService.getDice().subscribe(data => this.dice = data);
+  }
+
+  triggerRotate5() {
+    this.rotate5 = true;
+
+    // remove class after some time
+    setTimeout(() => {
+      this.rotate5=false;
+    }, 500);
+  }
+
+  triggerRotate9() {
+    this.rotate9 = true;
+
+    // remove class after some time
+    setTimeout(() => {
+      this.rotate9=false;
+    }, 500);
   }
 
   // Fill grid with 9 slots; insert die or null in desired positions
@@ -65,7 +87,6 @@ export class TaleDiceComponent implements OnInit {
   }
 
   //random dice
-
   shuffleDice(){
     this.selectedDice = TaleDiceComponent.getRandomSubarray(this.dice, this.diceQty);
     if (this.diceQty === 5)

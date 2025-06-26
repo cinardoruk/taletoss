@@ -1,0 +1,14 @@
+# runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+
+# Set working directory
+WORKDIR /app
+
+# Copy csproj and restore as separate step (for caching)
+COPY . .
+
+# Expose ASP.NET Core port
+EXPOSE 5267
+
+# run the app
+ENTRYPOINT ["dotnet", "backend.dll"]

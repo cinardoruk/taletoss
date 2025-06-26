@@ -4,3 +4,4 @@ backend/bin/
 backend/obj/
 backend/appsettings.Development.json
 .env*
+deploy/release/*

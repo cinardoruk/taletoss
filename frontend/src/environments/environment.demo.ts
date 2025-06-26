@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: "https://cinardoruk.xyz/"
+  baseUrl: "https://cinardoruk.xyz/demo/rolltale"
 };

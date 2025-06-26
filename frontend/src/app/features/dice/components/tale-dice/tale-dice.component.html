@@ -3,16 +3,14 @@
     <mat-button-toggle-group
     class="button-group-container"
     [hideSingleSelectionIndicator]="true">
-      <mat-button-toggle (click)="diceQty=5;shuffleDice()">
+      <mat-button-toggle (click)="diceQty=5;shuffleDice(); triggerRotate5()">
         <img
-            #five-btn
-            [class.rotate-once]="rotate360"
+            [class.rotate-once]="rotate5"
             [src]="currentUrl + five_button">
       </mat-button-toggle>
-      <mat-button-toggle (click)="diceQty=9;shuffleDice()">
+      <mat-button-toggle (click)="diceQty=9;shuffleDice(); triggerRotate9()">
         <img
-            #nine-btn
-            [class.rotate-once]="rotate360"
+            [class.rotate-once]="rotate9"
             class="rotate-360"
             [src]="currentUrl + nine_button">
       </mat-button-toggle>
