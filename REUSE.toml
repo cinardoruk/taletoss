@@ -1,0 +1,32 @@
+version = 1
+
+[[annotations]]
+path = "backend/Data/SeedSvgs/*.svg"
+SPDX-FileCopyrightText = "Copyright (c) Tailwind Labs, Inc"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "frontend/src/favicon.ico"
+SPDX-FileCopyrightText = "2025 Çınar Doruk"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = [
+	"deploy/nginx/nginx.conf",
+	"backend/backend.http",
+	"**.example",
+	"**.spec.ts",
+	"**.json",
+    "**.sln",
+	"**Dockerfile*",
+	"**dice.db*",
+    "**.json",
+    "**.md",
+    "**.editorconfig",
+    "**.gitignore",
+    "**.dockerignore",
+    "**.env*",
+    "**.lock",
+	]
+SPDX-FileCopyrightText = "2025 Çınar Doruk"
+SPDX-License-Identifier = "AGPL-3.0-only"

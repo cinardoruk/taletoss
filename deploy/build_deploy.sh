@@ -143,7 +143,7 @@ start_dc				start docker compose on the vps using $DOCKER_COMPOSE_FILE
 all  		            Run all steps (build, package, release_to_vps, start_dc)
 help        		    Display this help message
 
-fill out the variables in deploy.env
+fill out the variables in build_deploy.env
 
 WARNING: rsync is used with the --delete option. Local state will replace remote state. e.g files in the remote dir which are not on the local dir will be removed
 	"""
