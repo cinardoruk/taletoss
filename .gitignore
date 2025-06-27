@@ -10,3 +10,4 @@ deploy/release/*
 deploy/secrets/*
 frontend/ssl/*
 reuse-lint.txt
+.vscode
