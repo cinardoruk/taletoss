@@ -14,6 +14,7 @@ SPDX-License-Identifier = "AGPL-3.0-only"
 path = [
 	"deploy/nginx/nginx.conf",
 	"backend/backend.http",
+	"docs/*.png",
 	"**.example",
 	"**.spec.ts",
 	"**.json",

@@ -8,13 +8,13 @@ Useful for making language students practice speaking.
 
 ## 📑 Table of Contents
 
-1. [Live Demo](#🌐-live-demo)
-2. [Features](#✨-features)
-3. [Stack](#🧱-stack)
-4. [Development](#🛠️-development)
-5. [Deployment](#📦-deployment)
-6. [Script Usage](#⚙️-script-usage-help)
-7. [Contributing & Contact](#🤝-contributing-&-Contact)
+1. [Live Demo](#live-demo)
+2. [Stack](#stack)
+3. [Features](#features)
+4. [Development](#development)
+5. [Deployment](#deployment)
+6. [Script Usage Help](#script-usage-help)
+7. [Contributing & Contact](#contributing-&-Contact)
 8. [License](#license)
 
 ---
@@ -27,12 +27,12 @@ Useful for making language students practice speaking.
 
 ## 🧱 Stack
 
-- front: Angular 17
-- back: .Net 8 ASP.NET Core
-- database: PostgreSQL
-- reverse proxy: nginx
-- containerization: Docker Compose
-- build & deployment: included bash scripts
+- Frontend: Angular 17
+- Backend: .NET 8 ASP.NET Core
+- Database: PostgreSQL
+- Reverse proxy: Nginx
+- Containerization: Docker Compose
+- Build & deployment: Bash scripts
 
 ---
 
@@ -58,7 +58,7 @@ Useful for making language students practice speaking.
 
 ⚠️Development setup has not been fully containerized yet!
 
-[development_architecture_diagram](docs/architecture_dev.png)
+![development_architecture_diagram](docs/architecture_dev.png)
 
 You'll need
 * npm
@@ -94,7 +94,7 @@ Note that dotnet watch isn't as robust as ng serve, and it's better to manually 
 
 ## 📦 Deployment
 
-[deployment_architecture_diagram](docs/architecture_prod.png)
+ ![deployment_architecture_diagram](docs/architecture_prod.png)
 
 The production docker compose setup has these services:
 
@@ -106,7 +106,7 @@ The main steps for deployment are:
 
 ### 0. **Configure**
 
-#### Local configuration
+#### Local Configuration
 
    - Copy and customize the example files:
      - `deploy/.env.prod.example` → `deploy/.env.prod`
@@ -116,7 +116,7 @@ The main steps for deployment are:
    - Configure `baseHref` and `deployUrl` in `angular.json`.
    - build_deploy.sh assumes that you use key authentication to ssh into your server.
 
-#### Remote configuration
+#### Remote Configuration
 
 It is assumed that your vps/server has a native reverse proxy where https terminates, which will route traffic to the port alloted to the 'nginx' docker container. A configuration file in `/etc/nginx/sites-available` can be used to achieve this. A detailed walkthrough is outside the scope of this text.
 
@@ -163,7 +163,6 @@ Ideally,
 deploy/build_deploy.sh all
 ```
 should do steps 1-4, provided that local configuration was completed.
-:w
 
 ### 5. Seed
 
@@ -183,7 +182,7 @@ reset_db.sh
 ```
 in the target directory to wipe the database. Restarting ASP.NET Core will apply migrations and seed default users/roles.
 
-### script usage help
+### Script Usage Help
 
 #### build_deploy.sh
 
@@ -226,9 +225,8 @@ Questions or feedback? Open an issue or email me at cinar.doruk@gmail.com
 
 ## 📄 License
 
-The project itself is licensed under AGPLv3
-
-See `LICENSES/`
+This project is licensed under the AGPL-3.0-only.
+See `LICENSES` directory for full text.
 
 ## 🧩Assets
 
