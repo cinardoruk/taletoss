@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Çınar Doruk
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TeacherPageComponent } from './teacher-page.component';

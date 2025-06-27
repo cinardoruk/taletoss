@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Çınar Doruk
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { Routes } from '@angular/router';
 // import { ThemePaletteComponent } from './features/testing/theme-palette/theme-palette.component';
 import { AppComponent } from './app.component/app.component';

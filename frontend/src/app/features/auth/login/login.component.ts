@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Çınar Doruk
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 

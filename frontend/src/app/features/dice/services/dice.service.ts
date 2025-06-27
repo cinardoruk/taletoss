@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Çınar Doruk
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';

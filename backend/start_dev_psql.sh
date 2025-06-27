@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+
+# SPDX-FileCopyrightText: 2025 Çınar Doruk
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 :<<COMMENT
 start/stop a docker container for a dev psql
 TODO
