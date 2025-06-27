@@ -11,6 +11,8 @@ import { TeacherPageComponent } from '../features/dice/components/teacher-page/t
 import { Subject, takeUntil } from "rxjs";
 import { AuthService } from '@features/auth/auth.service'
 
+import { HelpStateService } from '@features/dice/services/help-state.service'
+
 
 @Component({
   selector: 'app-root',
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit{
   isLoggedIn: boolean = false;
 
 
-  title = 'RollTale';
+  title = 'TaleToss';
 
   //conditional rendering based on output of router subscription
   showWhichButtons = {
@@ -45,7 +47,8 @@ export class AppComponent implements OnInit{
   //isLoggedIn gets updated when it changes
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private helpState: HelpStateService,
   ){
     this.authService.authStatus.pipe(takeUntil(this.destroySubject)).subscribe(result => {
       this.isLoggedIn = result;
@@ -90,6 +93,9 @@ export class AppComponent implements OnInit{
     }
   }
 
+  showHelp(){
+    this.helpState.setShowHelp(true);
+  }
 
 
 

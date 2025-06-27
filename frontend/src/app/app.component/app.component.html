@@ -1,14 +1,15 @@
 <mat-toolbar class="top-toolbar">
   <div class="toolbar-content">
       <a class="toolbar-title"
-         [routerLink]="['']">
-        <span >RollTale</span>
+         [routerLink]="['']"
+         (click)="showHelp()">
+        <span >TaleToss</span>
       </a>
 
       <span class="example-spacer"></span>
 
       <div class="toolbar-icon">
-        <mat-icon>help</mat-icon>
+        <mat-icon (click)="showHelp()">help</mat-icon>
       </div>
 
       <div  *ngIf="showWhichButtons['teacher']">
@@ -23,7 +24,7 @@
         <a
           class="toolbar-icon"
           [routerLink]="['']">
-            <mat-icon  >casino</mat-icon>
+            <mat-icon (click)="showHelp()">casino</mat-icon>
         </a>
       </div>
 

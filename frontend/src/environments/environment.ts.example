@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: "https://cinardoruk.xyz/demo/taletoss"
+  baseUrl: "https://mydomain.com/"
 };

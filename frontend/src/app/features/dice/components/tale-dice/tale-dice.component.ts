@@ -7,11 +7,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 // service and interface for Die
-import { DiceService, TaleDie } from '../../services/dice.service';
+import { DiceService, TaleDie } from '@features/dice/services/dice.service';
+
+import { HelpStateService } from '@features/dice/services/help-state.service'
 
 import { environment } from '@env/environment'
 
@@ -25,6 +27,7 @@ import { environment } from '@env/environment'
     MatCardModule,
     MatButtonToggleModule,
     MatSlideToggleModule,
+    MatDividerModule,
   ],
   templateUrl: './tale-dice.component.html',
   styleUrl: './tale-dice.component.css'
@@ -37,6 +40,8 @@ export class TaleDiceComponent implements OnInit {
   rotate5: boolean = false;
   rotate9: boolean = false;
 
+  showHelpMessage: boolean = true;
+
   dice: TaleDie[] = [];
   selectedDice: (TaleDie | null)[] = [];
   diceQty: number = 5;
@@ -45,11 +50,15 @@ export class TaleDiceComponent implements OnInit {
 
   constructor(
     private diceService: DiceService,
+    private helpState: HelpStateService,
   ) {}
 
   ngOnInit(): void {
     this.loadDice();
     this.currentUrl = this.diceService.aspNetUrl;
+    this.helpState.showHelp$.subscribe(help => {
+      this.showHelpMessage = help;
+    });
   }
 
   loadDice(){
@@ -93,6 +102,7 @@ export class TaleDiceComponent implements OnInit {
       {
         this.selectedDice = this.getGridWithPlusShape();
       }
+    this.helpState.setShowHelp(false);
   }
 
   static getRandomSubarray<T>(arr: T[], size: number): T[] {

@@ -12,7 +12,6 @@
 	display:flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .button_container {
@@ -52,20 +51,17 @@
   }
 }
 
+.help-message {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+}
 
-/* .button-group-container2 button{ */
-/*   margin: 1rem 0 1rem 0; */
-/*   border: 1px; */
-/*   border-radius: */
-/*   background-color: var(--light-gray); */
-/*   padding: 0px !important; */
-/* } */
-
-
-/* .button-group-container2 img{ */
-/*   width: 125px; */
-/*   height: 125px; */
-/* } */
+.help-message p {
+  font-size: 20px;
+}
 
 .card_group{
 	display: grid;
@@ -79,6 +75,28 @@
   padding: 0;
 }
 
-.image-card img{
+@media (max-width: 700px) {
+  .help-message {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
 
+  .image-card{
+    width: 150px;
+    height: auto;
+    padding: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .help-message {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .image-card{
+    width: 75px;
+    height: auto;
+    padding: 0;
+  }
 }

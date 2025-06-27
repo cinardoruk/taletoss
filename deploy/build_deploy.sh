@@ -113,13 +113,15 @@ release_to_vps(){
 
 	rsync_to_vps $RELEASE_DIR $VPS_SSH $VPS_WORKTREE
 
+	ssh_to_vps "chmod +x $VPS_WORKTREE/start_dc.sh"
+
 }
 
 # ──────────────────────────────
 # 3. START docker compose in vps
 # ──────────────────────────────
 start_dc(){
-	ssh_to_vps "docker compose -f $VPS_WORKTREE/docker-compose.prod.yml -d"
+	ssh_to_vps "$VPS_WORKTREE/start_dc.sh up --build"
 }
 
 usage(){
@@ -133,12 +135,12 @@ package					copy nginx.conf, docker-compose.prod.yml, .env.prod and secrets/ int
 build_and_package       build and package
 release_to_vps			rsync release/ to $VPS_SSH:$VPS_WORKTREE
 start_dc				start docker compose on the vps using $DOCKER_COMPOSE_FILE
-all             Run all steps (build, package, release_to_vps, start_dc)
-help            Display this help message
+all  		            Run all steps (build, package, release_to_vps, start_dc)
+help        		    Display this help message
 
 fill out the variables in deploy.env
 
-WARNING: rsync is used with the --delete option. State of input/source dirs will replace the state of remote dirs. e.g sync_media will remove images on the remote media dir which are not on the local media dir
+WARNING: rsync is used with the --delete option. Local state will replace remote state. e.g files in the remote dir which are not on the local dir will be removed
 	"""
 }
 

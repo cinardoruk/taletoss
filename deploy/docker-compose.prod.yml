@@ -29,7 +29,7 @@ services:
       JwtSettings__ExpirationTimeInMinutes: ${JWT_EXPIRATION}
       DefaultPasswords__Administrator: ${ADMIN_PASSWORD}
       DefaultPasswords__RegisteredUser: ${USER_PASSWORD}
-    image: rolltale-backend
+    image: taletoss-backend
     networks: [appnet]
     depends_on: [postgres]
 

@@ -1,7 +1,11 @@
+.env.dev
 dev/*
 backend/wwwroot/*
 backend/bin/
 backend/obj/
 backend/appsettings.Development.json
-.env*
+deploy/.env.prod
+deploy/build_deploy.env
 deploy/release/*
+deploy/secrets/*
+frontend/ssl/*

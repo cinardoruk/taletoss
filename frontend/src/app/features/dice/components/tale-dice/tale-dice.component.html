@@ -3,36 +3,43 @@
     <mat-button-toggle-group
     class="button-group-container"
     [hideSingleSelectionIndicator]="true">
-      <mat-button-toggle (click)="diceQty=5;shuffleDice(); triggerRotate5()">
+      <mat-button-toggle (click)="diceQty=5;shuffleDice(); triggerRotate5();">
         <img
             [class.rotate-once]="rotate5"
             [src]="currentUrl + five_button">
       </mat-button-toggle>
-      <mat-button-toggle (click)="diceQty=9;shuffleDice(); triggerRotate9()">
+      <mat-button-toggle (click)="diceQty=9;shuffleDice(); triggerRotate9();">
         <img
             [class.rotate-once]="rotate9"
             class="rotate-360"
             [src]="currentUrl + nine_button">
       </mat-button-toggle>
     </mat-button-toggle-group>
-
-    <!-- <div class="button-group-container2"> -->
-    <!--   <button (click)="diceQty=5;shuffleDice()"> -->
-    <!--     <img [src]="currentUrl + five_button"> -->
-    <!--   </button> -->
-    <!--   <button (click)="diceQty=9;shuffleDice()"> -->
-    <!--     <img [src]="currentUrl + nine_button"> -->
-    <!--   </button> -->
-    <!-- </div> -->
-
   </div>
 
-  <div class="card_group">
-    <ng-container *ngFor="let die of selectedDice">
-      <mat-card *ngIf="die" class = "image-card">
-        <img mat-card-image [src]="currentUrl + die.svgPath">
-      </mat-card>
-      <div *ngIf="!die"></div>
+  <div class="dice-area">
+    <ng-container *ngIf="!showHelpMessage; else helpText">
+      <div class="card_group">
+        <ng-container *ngFor="let die of selectedDice">
+          <mat-card *ngIf="die" class = "image-card">
+            <img mat-card-image [src]="currentUrl + die.svgPath">
+          </mat-card>
+          <div *ngIf="!die"></div>
+        </ng-container>
+      </div>
     </ng-container>
+    <ng-template #helpText>
+      <div class="help-message">
+        <h2>Welcome to TaleToss!</h2>
+        <p>Click one of the buttons above.
+        <br>
+        Use every image to create a story!</p>
+        <mat-divider></mat-divider>
+        <h2>TaleToss'a Hoş Geldin!</h2>
+        <p>Yukarıdaki butonlardan birine tıkla. <br> Görsellerin hepsini kullanarak <br>bir hikâye oluştur!</p>
+
+      </div>
+    </ng-template>
   </div>
+
 </div>

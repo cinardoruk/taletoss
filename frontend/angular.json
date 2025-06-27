@@ -53,8 +53,8 @@
               "outputHashing": "all"
             },
             "production_demo": {
-              "baseHref": "/demo/rolltale/",
-              "deployUrl": "/demo/rolltale/",
+              "baseHref": "/demo/taletoss/",
+              "deployUrl": "/demo/taletoss/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

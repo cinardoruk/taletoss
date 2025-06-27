@@ -19,7 +19,7 @@ export interface TaleDie{
 export class DiceService {
 
   public aspNetUrl: string = environment.baseUrl;
-  private apiUrl: string = environment.baseUrl + '/api/dice';
+  private apiUrl: string = environment.baseUrl + 'api/dice';
 
   constructor(private http: HttpClient) {}
 
