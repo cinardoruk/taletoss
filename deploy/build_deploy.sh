@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/env bash
 
 # SPDX-FileCopyrightText: 2025 Çınar Doruk
 #
