@@ -4,9 +4,11 @@ A web application for generating random visual prompts to help you create storie
 Click a button to display 5 or 9 random images, then use every one of them to create a story.<br>
 Useful for making language students practice speaking.
 
+[demo](./demo.gif)
+
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Live Demo](#live-demo)
 2. [Stack](#stack)
@@ -19,13 +21,13 @@ Useful for making language students practice speaking.
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
-👉 [Live Demo Here](https://cinardoruk.xyz/demo/taletoss)
+[Live Demo Here](https://cinardoruk.xyz/demo/taletoss)
 
 ---
 
-## 🧱 Stack
+## Stack
 
 - Frontend: Angular 17
 - Backend: .NET 8 ASP.NET Core
@@ -36,7 +38,7 @@ Useful for making language students practice speaking.
 
 ---
 
-## ✨ Features
+## Features
 
 ### User
 -  Dynamic story-dice generation (5 or 9 images)
@@ -54,7 +56,7 @@ Useful for making language students practice speaking.
 
 ---
 
-## 🛠️ Development
+## Development
 
 ⚠️Development setup has not been fully containerized yet!
 
@@ -73,7 +75,7 @@ git clone https://github.com/cinardoruk/taletoss.git
 ```
 to grab the repo
 
-### 🔄 Basic Development Workflow
+### Basic Development Workflow
 
 ```bash
 cd frontend
@@ -92,7 +94,7 @@ Note that dotnet watch isn't as robust as ng serve, and it's better to manually 
 
 ---
 
-## 📦 Deployment
+## Deployment
 
  ![deployment_architecture_diagram](docs/architecture_prod.png)
 
@@ -219,15 +221,15 @@ down		stop AND remove the containers
 help        display this help message
 ```
 
-## 🤝 Contributing & Contact
+## Contributing & Contact
 Contributions welcome via PRs!
 Questions or feedback? Open an issue or email me at cinar.doruk@gmail.com
 
-## 📄 License
+## License
 
 This project is licensed under the AGPL-3.0-only.
 See `LICENSES` directory for full text.
 
-## 🧩Assets
+## Assets
 
 - Icons from [Heroicons](https://github.com/tailwindlabs/heroicons) — MIT licensed
