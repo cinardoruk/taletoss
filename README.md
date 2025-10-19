@@ -4,7 +4,7 @@ A web application for generating random visual prompts to help you create storie
 Click a button to display 5 or 9 random images, then use every one of them to create a story.<br>
 Useful for making language students practice speaking.
 
-[demo](./demo.gif)
+![demo](./demo.gif)
 
 ---
 
